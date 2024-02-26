@@ -1,0 +1,30 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: API-GATEWAY-SERVICE
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: USERS-SERVICE
+          uri: lb://USERS-SERVICE
+          predicates:
+            - Path=/user/**
+        - id: UI-SERVICE
+          uri: lb://UI-SERVICE
+          predicates:
+            - Path=/ui/**
+        - id: SURVEY-SERVICE
+          uri: lb://SURVEY-SERVICE
+          predicates:
+            - Path=/survey/**
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
